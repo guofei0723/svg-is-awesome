@@ -4,16 +4,53 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const rootPath = path.resolve(__dirname, '../');
 
+// 生成文章代码的入口路径
+function articleEntry(p) {
+  return './src/article-codes/' + p
+}
+
+// 生成html插件
+function getHtmlPlugin(title, filename, chunks) {
+  return new HtmlWebpackPlugin({
+    title: title,
+    filename: filename,
+    chunks: chunks,
+    template: 'templates/page.html'
+  })
+}
+
 module.exports = {
   entry: {
-    app: './src/index.js'
+    jsanim: articleEntry('js-anim/index.js')
   },
   output: {
-    filename: '[name]-bundle.js',
+    filename: '[name]-[hash:8].js',
     path: path.resolve(__dirname, '../dist')
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      name: true,
+      cacheGroups: {
+        myModule: {
+          test: /src\/commons\//,
+          name: 'commons'
+        }
+      }
+    }
   },
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react']
+          }
+        }
+      },
       {
         test: /\.css$/,
         use: [
@@ -37,8 +74,6 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(['dist'], {root: rootPath}),
-    new HtmlWebpackPlugin({
-      title: 'SVG is AWESOME'
-    })
+    getHtmlPlugin('JS Animation', 'jsanim.html', ['jsanim'])
   ]
 }
