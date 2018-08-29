@@ -2,10 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import cls from 'classnames';
 
+export const imageSize = {
+  width: 900,
+  height: 350
+}
+
 const TheWrapper = styled.div`
   position: relative;
-  width: 900px;
-  height: 350px;
+  width: ${imageSize.width}px;
+  height: ${imageSize.height}px;
 
   display: flex;
   align-items: center;

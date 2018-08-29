@@ -1,4 +1,13 @@
 import React from 'react';
 import { runInRoot } from '../../commons';
+import Interval from './Interval';
 
-runInRoot(() => <h1>Hi I am Here</h1>)
+const All = props => {
+  return (
+    <div>
+      <Interval />
+    </div>
+  )
+}
+
+runInRoot(() => <All />)
