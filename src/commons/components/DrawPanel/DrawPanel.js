@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import cls from 'classnames';
 import styled from 'styled-components';
 import { DraggableCore } from 'react-draggable';
+import { AnchorButton, Popover } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 import { ImageWrapper, imageSize } from '../ImageWrapper';
+import Menubar from './Menubar';
+import tools from './tools';
 
 const Canvas = styled.canvas`
   position: absolute;
@@ -10,20 +14,21 @@ const Canvas = styled.canvas`
   top: 0;
 `
 
-const tools = {
-  // 画笔
-  PEN: 'PEN',
-  // 橡皮
-  ERASER: 'ERASER'
-}
+const FloatBtn = styled.div`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+`
 
 export class DrawPanel extends Component {
   $canvas = React.createRef()
 
   state = {
-    dotR: 0.5,
-    fillColor: 'rgba(0, 0, 0, 0.5)',
-    tool: tools.ERASER
+    painter: {
+      dotR: 0.5,
+      fillColor: 'rgba(0, 0, 0, 0.5)',
+      tool: tools.PEN
+    }
   }
 
   // 鼠标按下处理
@@ -73,9 +78,9 @@ export class DrawPanel extends Component {
    * @param {string} color
    */
   paintDot (x, y, color) {
-    this.ctx.fillStyle = color || this.state.fillColor
+    this.ctx.fillStyle = color || this.state.painter.fillColor
     this.ctx.beginPath()
-    this.ctx.arc(x, y, this.state.dotR, 0, 2 * Math.PI)
+    this.ctx.arc(x, y, this.state.painter.dotR, 0, 2 * Math.PI)
     this.ctx.fill()
   }
 
@@ -95,7 +100,7 @@ export class DrawPanel extends Component {
    * 获取当前使用什么动作
    */
   getAction = () => {
-    switch (this.state.tool) {
+    switch (this.state.painter.tool) {
       case tools.ERASER:
         return (...args) => this.eraseDot(...args)
       case tools.PEN:
@@ -123,6 +128,11 @@ export class DrawPanel extends Component {
           >
           </Canvas>
         </DraggableCore>
+        <FloatBtn>
+          <Popover content={<Menubar {...this.state.painter} />} >
+            <AnchorButton icon={IconNames.VOLUME_UP} minimal />
+          </Popover>
+        </FloatBtn>
       </ImageWrapper>
     )
   }
