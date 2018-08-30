@@ -14,7 +14,7 @@ const Canvas = styled.canvas`
   top: 0;
 `
 
-const FloatBtn = styled.div`
+const MenuBtn = styled(Menubar)`
   position: absolute;
   top: 5px;
   right: 5px;
@@ -108,6 +108,12 @@ export class DrawPanel extends Component {
     }
   }
 
+  painterChangeHandler = (change) => {
+    this.setState(prev => ({
+      painter: {...prev.painter, ...change}
+    }))
+  }
+
   componentDidMount () {
     this.ctx = this.$canvas.current.getContext('2d')
   }
@@ -128,11 +134,7 @@ export class DrawPanel extends Component {
           >
           </Canvas>
         </DraggableCore>
-        <FloatBtn>
-          <Popover content={<Menubar {...this.state.painter} />} >
-            <AnchorButton icon={IconNames.VOLUME_UP} minimal />
-          </Popover>
-        </FloatBtn>
+        <MenuBtn {...this.state.painter} onChange={this.painterChangeHandler} />
       </ImageWrapper>
     )
   }
