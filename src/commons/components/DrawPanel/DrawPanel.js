@@ -10,12 +10,20 @@ const Canvas = styled.canvas`
   top: 0;
 `
 
+const tools = {
+  // 画笔
+  PEN: 'PEN',
+  // 橡皮
+  ERASER: 'ERASER'
+}
+
 export class DrawPanel extends Component {
   $canvas = React.createRef()
 
   state = {
     dotR: 0.5,
-    fillColor: 'rgba(0, 0, 0, 0.5)'
+    fillColor: 'rgba(0, 0, 0, 0.5)',
+    tool: tools.ERASER
   }
 
   // 鼠标按下处理
@@ -36,7 +44,7 @@ export class DrawPanel extends Component {
 
   // 拖动开始，鼠标按下即会解下
   startHandler = (e, d) => {
-    this.paintDot(d.x, d.y)
+    this.getAction()(d.x, d.y)
   }
 
   // 拖动处理器
@@ -46,26 +54,53 @@ export class DrawPanel extends Component {
     // 鼠标移动的方向角度
     let rad = Math.atan2(d.deltaY, d.deltaX)
 
+    let action = this.getAction()
+
     // 在鼠标移动方向上每隔一个像素单位画一个点
     for(let pass = 1; pass < length; pass++) {
       let dx = pass * Math.cos(rad)
       let dy = pass * Math.sin(rad)
-      this.paintDot(d.lastX + dx, d.lastY + dy)
+      action(d.lastX + dx, d.lastY + dy)
     }
     // 在目标坐标上画一个点
-    this.paintDot(d.x, d.y)
+    action(d.x, d.y)
   }
 
   /**
    * 在给定的坐标处画一个点
    * @param {number} x
    * @param {number} y 
+   * @param {string} color
    */
-  paintDot (x, y) {
-    this.ctx.fillStyle = this.state.fillColor
+  paintDot (x, y, color) {
+    this.ctx.fillStyle = color || this.state.fillColor
     this.ctx.beginPath()
     this.ctx.arc(x, y, this.state.dotR, 0, 2 * Math.PI)
     this.ctx.fill()
+  }
+
+  /**
+   * 清除给定坐标上的内容
+   * @param {number} x 
+   * @param {number} y 
+   */
+  eraseDot (x, y) {
+    this.ctx.save()
+    this.ctx.globalCompositeOperation = 'destination-out'
+    this.paintDot(x, y, '#000')
+    this.ctx.restore()
+  }
+
+  /**
+   * 获取当前使用什么动作
+   */
+  getAction = () => {
+    switch (this.state.tool) {
+      case tools.ERASER:
+        return (...args) => this.eraseDot(...args)
+      case tools.PEN:
+        return (...args) => this.paintDot(...args)
+    }
   }
 
   componentDidMount () {
