@@ -10,6 +10,7 @@ import { IconNames } from '@blueprintjs/icons';
 import styled from 'styled-components';
 import { SketchPicker } from 'react-color';
 import tools from './tools';
+import { DraggableCore } from 'react-draggable';
 
 const Btn = styled(AnchorButton)`
   border-radius: 15px;
@@ -26,6 +27,10 @@ const ColorPicker = styled(AnchorButton)`
 `
 
 class Menubar extends Component {
+  state = {
+    showSize: false
+  }
+
   callOnChange (...args) {
     let { onChange } = this.props
     if (typeof onChange === 'function') {
@@ -51,8 +56,21 @@ class Menubar extends Component {
     this.callOnChange({ fillColor: `rgba(${[r, g, b, a].join()})` })
   }
 
+  changeSize = (e, motion) => {
+    let { deltaX } = motion
+    this.callOnChange({ dotSize: this.props.dotSize + deltaX / 10})
+  }
+
+  changeSizeStart = () => {
+    this.setState({ showSize: true })
+  }
+
+  changeSizeEnd = () => {
+    this.setState({ showSize: false })
+  }
+
   render () {
-    let { tool, fillColor } = this.props
+    let { tool, fillColor, dotSize } = this.props
     
     return (
       <ButtonGroup className={cls('draw-panel-menu')}>
@@ -73,7 +91,16 @@ class Menubar extends Component {
           <ColorPicker icon={IconNames.TINT} style={{color: fillColor}} />
         </Popover>
         {/* 画笔大小 */}
-        <AnchorButton icon={IconNames.CIRCLE} />
+        <DraggableCore
+          onDrag={this.changeSize}
+          onStart={this.changeSizeStart}
+          onStop={this.changeSizeEnd}
+        >
+          <AnchorButton 
+            icon={IconNames.CIRCLE} 
+            text={this.state.showSize ? dotSize : undefined}
+          />
+        </DraggableCore>
       </ButtonGroup>
     )
   }

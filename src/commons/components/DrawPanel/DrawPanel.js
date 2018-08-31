@@ -25,7 +25,7 @@ export class DrawPanel extends Component {
 
   state = {
     painter: {
-      dotR: 0.5,
+      dotSize: 0.5,
       fillColor: 'rgba(0, 0, 0, 0.5)',
       tool: tools.PEN
     }
@@ -80,7 +80,7 @@ export class DrawPanel extends Component {
   paintDot (x, y, color) {
     this.ctx.fillStyle = color || this.state.painter.fillColor
     this.ctx.beginPath()
-    this.ctx.arc(x, y, this.state.painter.dotR, 0, 2 * Math.PI)
+    this.ctx.arc(x, y, this.state.painter.dotSize, 0, 2 * Math.PI)
     this.ctx.fill()
   }
 
@@ -109,7 +109,6 @@ export class DrawPanel extends Component {
   }
 
   painterChangeHandler = (change) => {
-    console.log(change)
     this.setState(prev => ({
       painter: {...prev.painter, ...change}
     }))
