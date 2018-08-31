@@ -3,24 +3,38 @@ import cls from 'classnames';
 import { 
   ButtonGroup,
   AnchorButton,
-  Popover
+  Popover,
+  Classes
 } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import styled from 'styled-components';
+import { SketchPicker } from 'react-color';
 import tools from './tools';
 
 const Btn = styled(AnchorButton)`
   border-radius: 15px;
 `
 
-class Menubar extends Component {
-  switchTool (tool) {
-    let { onChange } = this.props
+const ColorPicker = styled(AnchorButton)`
+  &&.${Classes.ACTIVE} {
+    background-color: white;
+  }
 
+  .${Classes.ICON} {
+    color: inherit;
+  }
+`
+
+class Menubar extends Component {
+  callOnChange (...args) {
+    let { onChange } = this.props
+    if (typeof onChange === 'function') {
+      onChange.call(null, ...args)
+    }
+  }
+  switchTool (tool) {
     if (tool !== this.props.tool) {
-      if (typeof onChange === 'function') {
-        onChange.call(null, {tool})
-      }
+      this.callOnChange({tool})
     }
   }
 
@@ -32,8 +46,13 @@ class Menubar extends Component {
     this.switchTool(tools.ERASER)
   }
 
+  changeColor = (color) => {
+    let { r, g, b, a } = color.rgb
+    this.callOnChange({ fillColor: `rgba(${[r, g, b, a].join()})` })
+  }
+
   render () {
-    let { tool } = this.props
+    let { tool, fillColor } = this.props
     
     return (
       <ButtonGroup className={cls('draw-panel-menu')}>
@@ -50,7 +69,9 @@ class Menubar extends Component {
           onClick={this.activeEraser} 
         />
         {/* 颜色 */}
-        <AnchorButton icon={IconNames.TINT} />
+        <Popover content={<SketchPicker color={fillColor} onChangeComplete={this.changeColor} />}>
+          <ColorPicker icon={IconNames.TINT} style={{color: fillColor}} />
+        </Popover>
         {/* 画笔大小 */}
         <AnchorButton icon={IconNames.CIRCLE} />
       </ButtonGroup>

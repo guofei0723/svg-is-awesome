@@ -109,6 +109,7 @@ export class DrawPanel extends Component {
   }
 
   painterChangeHandler = (change) => {
+    console.log(change)
     this.setState(prev => ({
       painter: {...prev.painter, ...change}
     }))
