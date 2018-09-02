@@ -12,6 +12,12 @@ import { SketchPicker } from 'react-color';
 import tools from './tools';
 import { DraggableCore } from 'react-draggable';
 
+const Btns = styled(ButtonGroup)`
+  &.disabled {
+    opacity: 0.5;
+  }
+`
+
 const Btn = styled(AnchorButton)`
   border-radius: 15px;
 `
@@ -69,11 +75,15 @@ class Menubar extends Component {
     this.setState({ showSize: false })
   }
 
+  toggleDisabled = () => {
+    this.callOnChange({ disabled: !this.props.disabled })
+  }
+
   render () {
-    let { tool, fillColor, dotSize } = this.props
+    let { tool, fillColor, dotSize, disabled } = this.props
     
     return (
-      <ButtonGroup className={cls('draw-panel-menu')}>
+      <Btns className={cls('draw-panel-menu', {disabled})}>
         {/* 画笔 */}
         <AnchorButton 
           icon={IconNames.EDIT} 
@@ -101,7 +111,12 @@ class Menubar extends Component {
             text={this.state.showSize ? dotSize : undefined}
           />
         </DraggableCore>
-      </ButtonGroup>
+        {/* 是否可用 */}
+        <AnchorButton 
+          icon={disabled ? IconNames.DISABLE : IconNames.CONFIRM}
+          onClick={this.toggleDisabled}
+        />
+      </Btns>
     )
   }
 }

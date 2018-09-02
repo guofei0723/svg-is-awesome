@@ -8,6 +8,27 @@ import { ImageWrapper, imageSize } from '../ImageWrapper';
 import Menubar from './Menubar';
 import tools from './tools';
 
+const Img = styled(ImageWrapper)`
+  .painter-menu {
+    opacity: 0;
+    transition: opacity .2s ease;
+  }
+
+  &.no-pointer {
+
+    canvas {
+      pointer-events: none;
+    }
+
+  }
+
+  :hover {
+    .painter-menu {
+      opacity: 1;
+    }
+  }
+`
+
 const Canvas = styled.canvas`
   position: absolute;
   left: 0;
@@ -25,26 +46,11 @@ export class DrawPanel extends Component {
 
   state = {
     painter: {
+      disabled: false,
       dotSize: 0.5,
       fillColor: 'rgba(0, 0, 0, 0.5)',
       tool: tools.PEN
     }
-  }
-
-  // 鼠标按下处理
-  mousedownHandler = (e) => {
-    // canvas 边框相对视口的位置
-    let { left: bx, top: by } = this.$canvas.current.getBoundingClientRect()
-    // 鼠标位置
-    let { clientX: mx, clientY: my } = e
-    // 鼠标相对canvas的位置
-    let [x, y] = [mx - bx, my - by]
-
-    this.setState({
-      x, y, prevX: x, prevY: y
-    })
-
-    console.log('mouse down: ', x, y)
   }
 
   // 拖动开始，鼠标按下即会解下
@@ -120,12 +126,12 @@ export class DrawPanel extends Component {
 
   render () {
     return (
-      <ImageWrapper className={cls('draw-panel')}>
+      <Img className={cls('draw-panel', {'no-pointer': this.state.painter.disabled})}>
         {this.props.children}
         <DraggableCore
-          // onMouseDown={this.mousedownHandler}
           onStart={this.startHandler}
           onDrag={this.dragHandler}
+          disabled={this.state.painter.disabled}
         >
           <Canvas 
             innerRef={this.$canvas} 
@@ -134,8 +140,8 @@ export class DrawPanel extends Component {
           >
           </Canvas>
         </DraggableCore>
-        <MenuBtn {...this.state.painter} onChange={this.painterChangeHandler} />
-      </ImageWrapper>
+        <MenuBtn className={cls('painter-menu')} {...this.state.painter} onChange={this.painterChangeHandler} />
+      </Img>
     )
   }
 }
