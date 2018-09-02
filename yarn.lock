@@ -134,6 +134,10 @@
   version "7.0.0-rc.1"
   resolved "http://registry.npm.taobao.org/@babel/helper-plugin-utils/download/@babel/helper-plugin-utils-7.0.0-rc.1.tgz#3e277eae59818e7d4caf4174f58a7a00d441336e"
 
+"@babel/helper-plugin-utils@^7.0.0":
+  version "7.0.0"
+  resolved "http://registry.npm.taobao.org/@babel/helper-plugin-utils/download/@babel/helper-plugin-utils-7.0.0.tgz#bbb3fbee98661c569034237cc03967ba99b4f250"
+
 "@babel/helper-regex@7.0.0-rc.1":
   version "7.0.0-rc.1"
   resolved "http://registry.npm.taobao.org/@babel/helper-regex/download/@babel/helper-regex-7.0.0-rc.1.tgz#591bf828846d91fea8c93d1bf3030bd99dbd94ce"
@@ -210,6 +214,13 @@
     "@babel/helper-remap-async-to-generator" "7.0.0-rc.1"
     "@babel/plugin-syntax-async-generators" "7.0.0-rc.1"
 
+"@babel/plugin-proposal-decorators@^7.0.0":
+  version "7.0.0"
+  resolved "http://registry.npm.taobao.org/@babel/plugin-proposal-decorators/download/@babel/plugin-proposal-decorators-7.0.0.tgz#33e7e683ca9f8ec3f72104ed11096839d48df502"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
+    "@babel/plugin-syntax-decorators" "^7.0.0"
+
 "@babel/plugin-proposal-object-rest-spread@7.0.0-rc.1":
   version "7.0.0-rc.1"
   resolved "http://registry.npm.taobao.org/@babel/plugin-proposal-object-rest-spread/download/@babel/plugin-proposal-object-rest-spread-7.0.0-rc.1.tgz#bc7ce898a48831fd733b251fd5ae46f986c905d8"
@@ -237,6 +248,12 @@
   resolved "http://registry.npm.taobao.org/@babel/plugin-syntax-async-generators/download/@babel/plugin-syntax-async-generators-7.0.0-rc.1.tgz#71d016f1a241d5e735b120f6cb94b8c57d53d255"
   dependencies:
     "@babel/helper-plugin-utils" "7.0.0-rc.1"
+
+"@babel/plugin-syntax-decorators@^7.0.0":
+  version "7.0.0"
+  resolved "http://registry.npm.taobao.org/@babel/plugin-syntax-decorators/download/@babel/plugin-syntax-decorators-7.0.0.tgz#7e151f744e1de3ec3601f6a4c69c8662cef1b27b"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
 
 "@babel/plugin-syntax-jsx@7.0.0-rc.1":
   version "7.0.0-rc.1"
