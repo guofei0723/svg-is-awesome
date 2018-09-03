@@ -8,11 +8,8 @@ import { ImageWrapper, imageSize } from '../ImageWrapper';
 import Menubar from './Menubar';
 import tools from './tools';
 
-const Img = styled(ImageWrapper)`
-  .painter-menu {
-    opacity: 0;
-    transition: opacity .2s ease;
-  }
+const Wrapper = styled.div`
+  position: relative;
 
   &.no-pointer {
 
@@ -21,24 +18,16 @@ const Img = styled(ImageWrapper)`
     }
 
   }
+`
 
-  :hover {
-    .painter-menu {
-      opacity: 1;
-    }
-  }
+const Img = styled(ImageWrapper)`
+  margin: 5px auto;
 `
 
 const Canvas = styled.canvas`
   position: absolute;
   left: 0;
   top: 0;
-`
-
-const MenuBtn = styled(Menubar)`
-  position: absolute;
-  top: 5px;
-  right: 5px;
 `
 
 export class DrawPanel extends Component {
@@ -126,22 +115,24 @@ export class DrawPanel extends Component {
 
   render () {
     return (
-      <Img className={cls('draw-panel', {'no-pointer': this.state.painter.disabled})}>
-        {this.props.children}
-        <DraggableCore
-          onStart={this.startHandler}
-          onDrag={this.dragHandler}
-          disabled={this.state.painter.disabled}
-        >
-          <Canvas 
-            innerRef={this.$canvas} 
-            width={imageSize.width} 
-            height={imageSize.height}
+      <Wrapper className={cls('draw-panel', {'no-pointer': this.state.painter.disabled})}>
+        <Menubar className={cls('painter-menu')} {...this.state.painter} onChange={this.painterChangeHandler} />
+        <Img >
+          {this.props.children}
+          <DraggableCore
+            onStart={this.startHandler}
+            onDrag={this.dragHandler}
+            disabled={this.state.painter.disabled}
           >
-          </Canvas>
-        </DraggableCore>
-        <MenuBtn className={cls('painter-menu')} {...this.state.painter} onChange={this.painterChangeHandler} />
-      </Img>
+            <Canvas 
+              innerRef={this.$canvas} 
+              width={imageSize.width} 
+              height={imageSize.height}
+            >
+            </Canvas>
+          </DraggableCore>
+        </Img>
+      </Wrapper>
     )
   }
 }

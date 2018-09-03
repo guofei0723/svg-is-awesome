@@ -13,7 +13,7 @@ import tools from './tools';
 import { DraggableCore } from 'react-draggable';
 
 const Btns = styled(ButtonGroup)`
-  &.disabled {
+  &&.disabled {
     opacity: 0.5;
   }
 `
@@ -32,7 +32,7 @@ const ColorPicker = styled(AnchorButton)`
   }
 `
 
-class Menubar extends Component {
+export default class Menubar extends Component {
   state = {
     showSize: false
   }
@@ -83,7 +83,7 @@ class Menubar extends Component {
     let { tool, fillColor, dotSize, disabled } = this.props
     
     return (
-      <Btns className={cls('draw-panel-menu', {disabled})}>
+      <Btns className={cls('draw-panel-menu', {disabled}, this.props.className)}>
         {/* 画笔 */}
         <AnchorButton 
           icon={IconNames.EDIT} 
@@ -121,11 +121,11 @@ class Menubar extends Component {
   }
 }
 
-export default function (props) {
-  let { className, ...rest } = props
-  return (
-    <Popover content={<Menubar {...rest} />} className={cls(className)} >
-      <Btn icon={IconNames.STYLE} minimal />
-    </Popover>
-  )
-}
+// export default function (props) {
+//   let { className, ...rest } = props
+//   return (
+//     <Popover content={<Menubar {...rest} />} className={cls(className)} >
+//       <Btn icon={IconNames.STYLE} minimal />
+//     </Popover>
+//   )
+// }
