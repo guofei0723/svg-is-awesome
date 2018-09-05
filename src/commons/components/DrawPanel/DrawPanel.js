@@ -20,6 +20,20 @@ const Wrapper = styled.div`
   }
 `
 
+const Header = styled.div`
+  position: relative;
+  width: ${imageSize.width}px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  /* .title {
+    display: inline-block;
+    margin: 0 20px;
+  } */
+`
+
 const Img = styled(ImageWrapper)`
   margin: 5px auto;
 `
@@ -35,7 +49,7 @@ export class DrawPanel extends Component {
 
   state = {
     painter: {
-      disabled: false,
+      disabled: true,
       dotSize: 0.5,
       fillColor: 'rgba(0, 0, 0, 0.5)',
       tool: tools.PEN
@@ -116,7 +130,10 @@ export class DrawPanel extends Component {
   render () {
     return (
       <Wrapper className={cls('draw-panel', {'no-pointer': this.state.painter.disabled})}>
-        <Menubar className={cls('painter-menu')} {...this.state.painter} onChange={this.painterChangeHandler} />
+        <Header>
+          <span className="title">{this.props.title}</span>
+          <Menubar className={cls('painter-menu')} {...this.state.painter} onChange={this.painterChangeHandler} />
+        </Header>
         <Img >
           {this.props.children}
           <DraggableCore
