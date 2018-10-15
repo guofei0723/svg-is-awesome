@@ -1,11 +1,12 @@
 import React from 'react';
 import { runInRoot } from '../../commons';
-import Interval from './Interval';
+import Timer from './timer';
 
 const All = props => {
   return (
     <div>
-      <Interval />
+      <Timer />
+      <Timer timer="timeout" title="setTimeout" />
     </div>
   )
 }
