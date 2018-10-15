@@ -10,18 +10,20 @@ function articleEntry(p) {
 }
 
 // 生成html插件
-function getHtmlPlugin(title, filename, chunks) {
+function getHtmlPlugin(title, filename, chunks, initScale=1) {
   return new HtmlWebpackPlugin({
     title: title,
     filename: filename,
     chunks: chunks,
+    initScale,
     template: 'templates/page.html'
   })
 }
 
 module.exports = {
   entry: {
-    jsanim: articleEntry('js-anim/index.js')
+    jsanim: articleEntry('js-anim/index.js'),
+    svg: articleEntry('svg/index.js')
   },
   output: {
     filename: '[name]-[hash:8].js',
@@ -78,6 +80,7 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(['dist'], {root: rootPath}),
-    getHtmlPlugin('JS Animation', 'jsanim.html', ['jsanim'])
+    getHtmlPlugin('JS Animation', 'jsanim.html', ['jsanim']),
+    getHtmlPlugin('SVG is Awesome', 'svg.html', ['svg'], 0.5),
   ]
 }
