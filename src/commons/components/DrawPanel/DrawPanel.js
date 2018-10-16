@@ -45,6 +45,10 @@ const Canvas = styled.canvas`
 `
 
 export class DrawPanel extends Component {
+  static defaultProps = {
+    canvasScale: 1
+  }
+
   $canvas = React.createRef()
 
   state = {
@@ -123,25 +127,34 @@ export class DrawPanel extends Component {
     }))
   }
 
+  isDisabled () {
+    return this.props.canvasScale !== 1 || this.state.painter.disabled
+  }
+
   componentDidMount () {
     this.ctx = this.$canvas.current.getContext('2d')
   }
 
   render () {
     return (
-      <Wrapper className={cls('draw-panel', {'no-pointer': this.state.painter.disabled})}>
+      <Wrapper className={cls('draw-panel', {'no-pointer': this.isDisabled()})}>
         <Header>
           <span className="title">{this.props.title}</span>
-          <Menubar className={cls('painter-menu')} {...this.state.painter} onChange={this.painterChangeHandler} />
+          <Menubar 
+            className={cls('painter-menu')} 
+            {...this.state.painter} 
+            disabled={this.isDisabled()} 
+            onChange={this.painterChangeHandler} 
+          />
         </Header>
-        <Img >
+        <Img>
           {this.props.children}
           <DraggableCore
             onStart={this.startHandler}
             onDrag={this.dragHandler}
-            disabled={this.state.painter.disabled}
+            disabled={this.isDisabled()}
           >
-            <Canvas 
+            <Canvas  style={{transform: `scale(${this.props.canvasScale})`}}
               innerRef={this.$canvas} 
               width={imageSize.width} 
               height={imageSize.height}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { DrawPanel } from '../../../commons/components';
 import styled from 'styled-components';
+import { Slider } from '@blueprintjs/core';
+import { DrawPanel } from '../../../commons/components';
 
 const Container = styled.div`
   flex: 0 0 auto;
@@ -11,18 +12,44 @@ const Container = styled.div`
   padding: 20px;
 `
 
+Container.displayName = 'Container'
+
+const Scaler = styled(Slider)`
+  position: absolute;
+  right: -50px;
+  top: 50px;
+`
+
 export default function (WrappedComponent) {
   return class extends Component {
+    state = {
+      scale: 1
+    }
+
+    scaleHandler = (v) => {
+      this.setState({ scale: v })
+    }
+
     render () {
       let { title, ...restProps } = this.props
+      let style = {transform: `scale(${this.state.scale})`}
 
       return (
-        <DrawPanel title={title}>
-          <Container>
+        <DrawPanel title={title}  canvasScale={this.state.scale}>
+          <Container style={style}>
             <svg width="100%" height="100%">
               <WrappedComponent {...restProps} />
             </svg>
           </Container>
+          <Scaler 
+            max={1.5}
+            min={0.5}
+            stepSize={0.1}
+            labelStepSize={0.5}
+            onChange={this.scaleHandler}
+            value={this.state.scale}
+            vertical
+          />
         </DrawPanel>
       )
     }

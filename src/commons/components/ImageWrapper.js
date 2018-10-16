@@ -19,7 +19,7 @@ const TheWrapper = styled.div`
 
 export const ImageWrapper = props => {
   return (
-    <TheWrapper className={cls('image-wrapper', props.className)} >
+    <TheWrapper className={cls('image-wrapper', props.className)} style={props.style} >
       { props.children }
     </TheWrapper>
   )
