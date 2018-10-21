@@ -99,25 +99,27 @@ class _Path01 extends Component {
   render () {
     
     return (
-      <g 
-        transform="translate(430, 155)"
-      >
-        <path 
-          d="M -200 -100 C -400 -200, -400 200, -200 100 L 200 -100 C 400 -200, 400 200, 200 100 Z"
-          strokeWidth={1} 
-          stroke="steelblue" 
-          fill="none"
-          strokeDasharray={this.state.pathLength}
-          strokeDashoffset={this.state.pathDashOffset}
-          ref={this.$path}
-        />
-        <path 
-          d="M -5 0 L -20 -10 L20 0 L-20 10 Z"
-          fill="red"
-          transform={this.calPlainTransform()}
-          ref={this.$plain}
-        />
-      </g>
+      <svg width="100%" height="100%">
+        <g 
+          transform="translate(430, 155)"
+        >
+          <path 
+            d="M -200 -100 C -400 -200, -400 200, -200 100 L 200 -100 C 400 -200, 400 200, 200 100 Z"
+            strokeWidth={1} 
+            stroke="steelblue" 
+            fill="none"
+            strokeDasharray={this.state.pathLength}
+            strokeDashoffset={this.state.pathDashOffset}
+            ref={this.$path}
+          />
+          <path 
+            d="M -5 0 L -20 -10 L20 0 L-20 10 Z"
+            fill="red"
+            transform={this.calPlainTransform()}
+            ref={this.$plain}
+          />
+        </g>
+      </svg>
     )
   }
 }

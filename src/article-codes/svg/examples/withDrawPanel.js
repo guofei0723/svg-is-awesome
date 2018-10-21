@@ -37,9 +37,7 @@ export default function (WrappedComponent) {
       return (
         <DrawPanel title={title}  canvasScale={this.state.scale}>
           <Container style={style}>
-            <svg width="100%" height="100%">
-              <WrappedComponent {...restProps} />
-            </svg>
+            <WrappedComponent {...restProps} />
           </Container>
           <Scaler 
             max={1.5}
