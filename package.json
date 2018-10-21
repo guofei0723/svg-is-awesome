@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "build": "webpack --config ./configs/webpack.prod.js",
-    "start": "webpack-dev-server --config ./configs/webpack.dev.js --contentBase dist --open"
+    "start": "webpack-dev-server --config ./configs/webpack.dev.js --contentBase dist --open",
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [],
   "author": "guofei0723@gmail.com",
@@ -29,6 +30,7 @@
     "@blueprintjs/core": "^3.4.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "classnames": "^2.2.6",
+    "gh-pages": "^2.0.1",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-color": "^2.14.1",
