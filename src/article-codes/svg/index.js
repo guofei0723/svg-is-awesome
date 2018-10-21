@@ -1,5 +1,5 @@
 import React from 'react';
-import { runInRoot } from '../../commons';
+import { runInRoot, QRCode } from '../../commons';
 import * as examples from './examples'
 import ArticleBlock from './articleblock'
 
@@ -15,6 +15,8 @@ const All = props => {
           <Example />
         </ArticleBlock>
       ))}
+
+      <QRCode />
     </div>
   )
 }
