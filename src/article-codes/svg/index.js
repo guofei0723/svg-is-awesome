@@ -1,11 +1,20 @@
 import React from 'react';
 import { runInRoot } from '../../commons';
 import * as examples from './examples'
+import ArticleBlock from './articleblock'
 
 const All = props => {
   return (
     <div>
-      <examples.Path01 />
+      {Object.entries(examples).map(([_, Example], i) => (
+        <ArticleBlock key={i}
+          articleId={Example.articleId}
+          title={Example.articleTitle}
+          source={Example.sourceCode}
+        >
+          <Example />
+        </ArticleBlock>
+      ))}
     </div>
   )
 }

@@ -124,4 +124,4 @@ class _Path01 extends Component {
   }
 }
 
-export const Path01 = withDrawPanel(_Path01) 
+export const Path01 = withDrawPanel(_Path01, 'path01', '路径(Path) - SVG从入门到起飞【5】', 'path01.js') 

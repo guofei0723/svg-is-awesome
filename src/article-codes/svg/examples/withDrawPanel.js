@@ -20,8 +20,12 @@ const Scaler = styled(Slider)`
   top: 50px;
 `
 
-export default function (WrappedComponent) {
+export default function (WrappedComponent, articleId, articleTitle, sourceCode) {
   return class extends Component {
+    static articleId = articleId
+    static articleTitle = articleTitle
+    static sourceCode = sourceCode
+
     state = {
       scale: 1
     }
